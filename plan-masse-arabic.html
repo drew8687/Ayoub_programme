@@ -1,0 +1,1449 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>برنامج اكتساب الكتلة العضلية — من 74 إلى 80 كغ</title>
+  <link href="https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&family=Cairo:wght@300;400;600;700;900&display=swap" rel="stylesheet"/>
+  <style>
+    :root {
+      --red: #c0392b;
+      --red-deep: #7b0d0d;
+      --red-light: #e74c3c;
+      --red-pale: #fdecea;
+      --gold: #d4a017;
+      --gold-light: #f0c040;
+      --dark: #0f0f0f;
+      --dark2: #1a1a1a;
+      --dark3: #222;
+      --text: #1a1a1a;
+      --muted: #777;
+      --bg: #f8f5f0;
+      --white: #ffffff;
+      --green: #27ae60;
+      --green-pale: #eafaf1;
+      --blue: #2980b9;
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: 'Cairo', sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      direction: rtl;
+    }
+
+    /* ===== HERO ===== */
+    .hero {
+      background: var(--dark);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      padding: 60px 40px;
+      position: relative;
+      overflow: hidden;
+    }
+    .hero-bg-text {
+      position: absolute;
+      top: 50%; left: 50%;
+      transform: translate(-50%, -50%);
+      font-family: 'Amiri', serif;
+      font-size: 22vw;
+      font-weight: 700;
+      color: rgba(192,57,43,0.04);
+      white-space: nowrap;
+      pointer-events: none;
+      user-select: none;
+    }
+    .hero-line {
+      position: absolute;
+      top: 0; right: 0;
+      width: 4px;
+      height: 100%;
+      background: linear-gradient(to bottom, var(--red), transparent);
+    }
+    .hero-dots {
+      position: absolute;
+      bottom: 40px; left: 40px;
+      display: flex; gap: 8px;
+    }
+    .hero-dot {
+      width: 8px; height: 8px;
+      border-radius: 50%;
+      background: rgba(255,255,255,0.15);
+    }
+    .hero-dot.active { background: var(--red-light); }
+
+    .hero-badge {
+      display: inline-block;
+      background: rgba(192,57,43,0.15);
+      border: 1px solid rgba(192,57,43,0.4);
+      color: var(--red-light);
+      font-size: 12px;
+      font-weight: 700;
+      letter-spacing: 1px;
+      padding: 6px 16px;
+      border-radius: 99px;
+      margin-bottom: 28px;
+      width: fit-content;
+    }
+
+    .hero h1 {
+      font-family: 'Amiri', serif;
+      font-size: clamp(2.5rem, 6vw, 4.5rem);
+      color: white;
+      line-height: 1.25;
+      margin-bottom: 20px;
+      max-width: 700px;
+    }
+    .hero h1 em {
+      font-style: normal;
+      color: var(--gold-light);
+    }
+    .hero h1 strong {
+      color: var(--red-light);
+    }
+
+    .hero-desc {
+      font-size: 15px;
+      color: rgba(255,255,255,0.5);
+      max-width: 480px;
+      line-height: 1.9;
+      margin-bottom: 40px;
+    }
+
+    .hero-stats {
+      display: flex;
+      gap: 0;
+      flex-wrap: wrap;
+    }
+    .hstat {
+      padding: 20px 28px;
+      border-right: 1px solid rgba(255,255,255,0.08);
+      min-width: 120px;
+    }
+    .hstat:last-child { border-right: none; }
+    .hstat-val {
+      font-family: 'Amiri', serif;
+      font-size: 2.2rem;
+      font-weight: 700;
+      line-height: 1;
+    }
+    .hstat-val.red { color: var(--red-light); }
+    .hstat-val.gold { color: var(--gold-light); }
+    .hstat-val.green { color: #2ecc71; }
+    .hstat-label {
+      font-size: 11px;
+      color: rgba(255,255,255,0.4);
+      margin-top: 4px;
+    }
+
+    .scroll-hint {
+      position: absolute;
+      bottom: 30px; right: 40px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      color: rgba(255,255,255,0.3);
+      font-size: 12px;
+    }
+    .scroll-arrow {
+      width: 24px; height: 24px;
+      border: 1px solid rgba(255,255,255,0.2);
+      border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 10px;
+      animation: bounce 2s infinite;
+    }
+    @keyframes bounce {
+      0%,100% { transform: translateY(0); }
+      50% { transform: translateY(4px); }
+    }
+
+    /* ===== NAV TABS ===== */
+    .tabs {
+      background: var(--dark2);
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      display: flex;
+      justify-content: center;
+      gap: 4px;
+      padding: 12px 20px;
+      overflow-x: auto;
+      scrollbar-width: none;
+    }
+    .tabs::-webkit-scrollbar { display: none; }
+    .tab {
+      padding: 8px 18px;
+      border-radius: 8px;
+      font-size: 13px;
+      font-weight: 700;
+      color: rgba(255,255,255,0.4);
+      cursor: pointer;
+      white-space: nowrap;
+      transition: all 0.2s;
+      text-decoration: none;
+    }
+    .tab:hover { color: white; background: rgba(255,255,255,0.06); }
+    .tab.active { color: white; background: var(--red); }
+
+    /* ===== SECTIONS ===== */
+    .section {
+      padding: 60px 24px;
+      max-width: 960px;
+      margin: 0 auto;
+    }
+    .section + .section { border-top: 1px solid rgba(0,0,0,0.07); }
+
+    .sec-label {
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: var(--red);
+      margin-bottom: 8px;
+    }
+    .sec-title {
+      font-family: 'Amiri', serif;
+      font-size: clamp(1.6rem, 4vw, 2.4rem);
+      color: var(--dark);
+      margin-bottom: 8px;
+      line-height: 1.3;
+    }
+    .sec-sub {
+      font-size: 14px;
+      color: var(--muted);
+      margin-bottom: 36px;
+      line-height: 1.8;
+    }
+
+    /* ===== STRATEGY CARDS ===== */
+    .strategy-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 16px;
+      margin-bottom: 32px;
+    }
+    .strat-card {
+      background: white;
+      border-radius: 16px;
+      padding: 24px 20px;
+      box-shadow: 0 2px 20px rgba(0,0,0,0.06);
+      border-top: 3px solid var(--red);
+      position: relative;
+      overflow: hidden;
+    }
+    .strat-card::after {
+      content: attr(data-num);
+      position: absolute;
+      bottom: -10px; left: 10px;
+      font-family: 'Amiri', serif;
+      font-size: 4rem;
+      font-weight: 700;
+      color: rgba(192,57,43,0.05);
+    }
+    .strat-icon { font-size: 1.6rem; margin-bottom: 12px; }
+    .strat-title {
+      font-size: 14px;
+      font-weight: 700;
+      color: var(--dark);
+      margin-bottom: 6px;
+    }
+    .strat-text { font-size: 12.5px; color: var(--muted); line-height: 1.6; }
+
+    /* ===== CALORIES BOX ===== */
+    .cal-box {
+      background: var(--dark);
+      border-radius: 20px;
+      padding: 32px;
+      color: white;
+      margin-bottom: 32px;
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+      gap: 1px;
+      background-image: linear-gradient(135deg, #0f0f0f 60%, #1e1010);
+      position: relative;
+      overflow: hidden;
+    }
+    .cal-box::before {
+      content: '';
+      position: absolute;
+      top: 0; right: 0;
+      width: 200px; height: 200px;
+      background: radial-gradient(circle, rgba(192,57,43,0.15) 0%, transparent 70%);
+    }
+    .cal-item {
+      padding: 20px;
+      text-align: right;
+    }
+    .cal-val {
+      font-family: 'Amiri', serif;
+      font-size: 2rem;
+      font-weight: 700;
+      color: var(--gold-light);
+      display: block;
+    }
+    .cal-label { font-size: 12px; color: rgba(255,255,255,0.45); margin-top: 4px; }
+    .cal-sub { font-size: 11px; color: rgba(255,255,255,0.25); margin-top: 2px; }
+
+    /* ===== MEAL CARDS ===== */
+    .meals-wrapper {
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+    }
+    .meal-block {
+      background: white;
+      border-radius: 18px;
+      overflow: hidden;
+      box-shadow: 0 3px 20px rgba(0,0,0,0.07);
+    }
+    .meal-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 16px 22px;
+      flex-direction: row-reverse;
+    }
+    .meal-header.fajr { background: linear-gradient(135deg, #fff7e0, #fef3cd); }
+    .meal-header.lunch { background: linear-gradient(135deg, #e8f5e9, #c8e6c9); }
+    .meal-header.snack { background: linear-gradient(135deg, #e3f2fd, #bbdefb); }
+    .meal-header.dinner { background: linear-gradient(135deg, #ede7f6, #d1c4e9); }
+    .meal-hright { text-align: right; }
+    .meal-time { font-size: 11px; color: var(--muted); font-weight: 600; }
+    .meal-name {
+      font-family: 'Amiri', serif;
+      font-size: 1.25rem;
+      font-weight: 700;
+      color: var(--dark);
+    }
+    .meal-kcal {
+      background: rgba(0,0,0,0.08);
+      border-radius: 20px;
+      padding: 4px 14px;
+      font-size: 12px;
+      font-weight: 700;
+      color: var(--dark);
+    }
+    .meal-body { padding: 18px 22px; }
+    .food-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 9px 0;
+      border-bottom: 1px solid #f5f5f5;
+      flex-direction: row-reverse;
+    }
+    .food-row:last-child { border-bottom: none; }
+    .food-name { font-size: 14px; font-weight: 600; }
+    .food-meta { display: flex; gap: 8px; align-items: center; }
+    .food-qty {
+      font-size: 12px;
+      color: var(--muted);
+      background: #f5f5f5;
+      padding: 2px 10px;
+      border-radius: 10px;
+    }
+    .food-prot {
+      font-size: 11px;
+      color: var(--red);
+      background: var(--red-pale);
+      padding: 2px 8px;
+      border-radius: 10px;
+      font-weight: 700;
+    }
+    .meal-note {
+      margin-top: 14px;
+      padding: 10px 14px;
+      background: #fffbf0;
+      border-radius: 10px;
+      font-size: 12.5px;
+      color: #7a5f00;
+      border-right: 3px solid var(--gold);
+    }
+
+    /* ===== SPORT SECTION ===== */
+    .week-container {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+    .day-row {
+      background: white;
+      border-radius: 14px;
+      overflow: hidden;
+      box-shadow: 0 2px 12px rgba(0,0,0,0.05);
+      display: flex;
+      flex-direction: row-reverse;
+    }
+    .day-label {
+      width: 90px;
+      flex-shrink: 0;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 18px 12px;
+      background: var(--dark);
+      color: white;
+      text-align: center;
+    }
+    .day-label.rest { background: #f0f0f0; }
+    .day-label.rest .day-ar { color: var(--muted); }
+    .day-label.rest .day-num { color: #bbb; }
+    .day-ar { font-family: 'Amiri', serif; font-size: 1rem; font-weight: 700; }
+    .day-num { font-size: 10px; color: rgba(255,255,255,0.35); margin-top: 2px; }
+    .day-content { flex: 1; padding: 16px 20px; }
+    .day-sport-title {
+      font-size: 14px;
+      font-weight: 700;
+      color: var(--dark);
+      margin-bottom: 8px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      flex-direction: row-reverse;
+    }
+    .sport-tag {
+      display: inline-block;
+      padding: 3px 10px;
+      border-radius: 8px;
+      font-size: 11px;
+      font-weight: 700;
+    }
+    .sport-tag.judo { background: #fdecea; color: var(--red); }
+    .sport-tag.muscu { background: #e8f5e9; color: #1e8449; }
+    .sport-tag.run { background: #e3f2fd; color: #1565c0; }
+    .sport-tag.rest { background: #f5f5f5; color: var(--muted); }
+    .exercise-list {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+      margin-top: 8px;
+    }
+    .exercise-list li {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 13px;
+      padding: 6px 10px;
+      background: #fafafa;
+      border-radius: 8px;
+      flex-direction: row-reverse;
+    }
+    .ex-name { font-weight: 600; }
+    .ex-sets {
+      font-size: 11px;
+      color: var(--muted);
+      font-weight: 700;
+    }
+
+    /* ===== JUDO PROGRAM ===== */
+    .judo-phases {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+      gap: 16px;
+    }
+    .judo-phase {
+      background: white;
+      border-radius: 16px;
+      padding: 22px;
+      box-shadow: 0 2px 16px rgba(0,0,0,0.06);
+      border-top: 4px solid var(--red);
+    }
+    .phase-badge {
+      display: inline-block;
+      background: var(--red-pale);
+      color: var(--red);
+      font-size: 11px;
+      font-weight: 700;
+      padding: 4px 12px;
+      border-radius: 20px;
+      margin-bottom: 12px;
+    }
+    .phase-title {
+      font-family: 'Amiri', serif;
+      font-size: 1.15rem;
+      font-weight: 700;
+      margin-bottom: 12px;
+    }
+    .tech-list { list-style: none; }
+    .tech-list li {
+      padding: 7px 0;
+      border-bottom: 1px solid #f5f5f5;
+      font-size: 13px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      flex-direction: row-reverse;
+    }
+    .tech-list li:last-child { border-bottom: none; }
+    .tech-list li::before {
+      content: '⬥';
+      color: var(--red);
+      font-size: 8px;
+      flex-shrink: 0;
+    }
+
+    /* ===== RUNNING PLAN ===== */
+    .run-weeks {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 12px;
+    }
+    .run-week {
+      background: white;
+      border-radius: 14px;
+      padding: 18px;
+      box-shadow: 0 2px 12px rgba(0,0,0,0.06);
+      text-align: right;
+    }
+    .run-week-num {
+      font-size: 11px;
+      font-weight: 700;
+      color: var(--blue);
+      margin-bottom: 6px;
+      letter-spacing: 1px;
+    }
+    .run-week-title {
+      font-family: 'Amiri', serif;
+      font-size: 1.05rem;
+      font-weight: 700;
+      margin-bottom: 10px;
+    }
+    .run-detail {
+      font-size: 12.5px;
+      color: var(--muted);
+      line-height: 1.7;
+    }
+    .run-detail strong { color: var(--blue); }
+
+    /* ===== SUPPLEMENTS ===== */
+    .supp-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 16px;
+    }
+    .supp-card {
+      background: var(--dark2);
+      color: white;
+      border-radius: 16px;
+      padding: 22px;
+      position: relative;
+      overflow: hidden;
+    }
+    .supp-card::before {
+      content: '';
+      position: absolute;
+      top: -30px; left: -30px;
+      width: 100px; height: 100px;
+      border-radius: 50%;
+      background: rgba(255,255,255,0.03);
+    }
+    .supp-icon { font-size: 2rem; margin-bottom: 12px; }
+    .supp-name {
+      font-family: 'Amiri', serif;
+      font-size: 1.1rem;
+      font-weight: 700;
+      color: var(--gold-light);
+      margin-bottom: 8px;
+    }
+    .supp-dose {
+      font-size: 12px;
+      color: rgba(255,255,255,0.6);
+      line-height: 1.7;
+    }
+    .supp-dose strong { color: var(--red-light); }
+
+    /* ===== PROGRESS ===== */
+    .progress-tracker {
+      background: white;
+      border-radius: 20px;
+      padding: 30px;
+      box-shadow: 0 4px 24px rgba(0,0,0,0.08);
+    }
+    .prog-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      margin-bottom: 24px;
+      flex-direction: row-reverse;
+    }
+    .prog-main {
+      text-align: right;
+    }
+    .prog-title {
+      font-family: 'Amiri', serif;
+      font-size: 1.3rem;
+      font-weight: 700;
+    }
+    .prog-sub { font-size: 13px; color: var(--muted); margin-top: 4px; }
+    .prog-badge {
+      background: var(--green-pale);
+      color: var(--green);
+      font-size: 12px;
+      font-weight: 700;
+      padding: 8px 16px;
+      border-radius: 12px;
+    }
+    .milestones {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+    .milestone {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      flex-direction: row-reverse;
+    }
+    .ms-dot {
+      width: 14px; height: 14px;
+      border-radius: 50%;
+      flex-shrink: 0;
+      border: 2px solid #ddd;
+    }
+    .ms-dot.done { background: var(--green); border-color: var(--green); }
+    .ms-dot.current { background: var(--gold); border-color: var(--gold); box-shadow: 0 0 0 4px rgba(212,160,23,0.15); }
+    .ms-line {
+      flex: 1;
+      height: 2px;
+      background: #eee;
+    }
+    .ms-line.done { background: var(--green); }
+    .ms-label { font-size: 13px; font-weight: 600; min-width: 60px; text-align: right; }
+    .ms-detail { font-size: 12px; color: var(--muted); flex: 1; text-align: right; }
+
+    /* ===== RULES ===== */
+    .rules-big {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+      gap: 14px;
+    }
+    .rule-big {
+      background: white;
+      border-radius: 16px;
+      padding: 22px 18px;
+      box-shadow: 0 2px 16px rgba(0,0,0,0.06);
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+    .rule-big::after {
+      content: attr(data-n);
+      position: absolute;
+      bottom: -12px; left: 50%;
+      transform: translateX(-50%);
+      font-family: 'Amiri', serif;
+      font-size: 5rem;
+      font-weight: 700;
+      color: rgba(192,57,43,0.04);
+    }
+    .rule-big-icon { font-size: 2rem; margin-bottom: 10px; }
+    .rule-big-text { font-size: 13px; font-weight: 600; line-height: 1.6; }
+
+    /* ===== AVOID ===== */
+    .avoid-section {
+      background: #fff5f5;
+      border-radius: 16px;
+      padding: 24px;
+      border-right: 5px solid var(--red);
+      margin-top: 32px;
+    }
+    .avoid-title {
+      font-family: 'Amiri', serif;
+      font-size: 1.15rem;
+      color: var(--red);
+      margin-bottom: 14px;
+      font-weight: 700;
+    }
+    .avoid-chips {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      flex-direction: row-reverse;
+    }
+    .avoid-chip {
+      background: white;
+      border: 1px solid #f5c6c6;
+      color: var(--red);
+      padding: 6px 16px;
+      border-radius: 20px;
+      font-size: 13px;
+      font-weight: 600;
+    }
+
+    /* ===== DIVIDER ===== */
+    .divider {
+      height: 4px;
+      background: linear-gradient(90deg, var(--red), transparent);
+      margin: 0;
+    }
+
+    /* ===== FOOTER ===== */
+    footer {
+      background: var(--dark);
+      color: rgba(255,255,255,0.4);
+      text-align: center;
+      padding: 30px 20px;
+      font-size: 13px;
+    }
+    footer strong { color: var(--gold-light); }
+
+    /* ===== ANIMATIONS ===== */
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    .hero > * {
+      animation: fadeUp 0.6s ease both;
+    }
+    .hero-badge { animation-delay: 0.1s; }
+    .hero h1 { animation-delay: 0.2s; }
+    .hero-desc { animation-delay: 0.3s; }
+    .hero-stats { animation-delay: 0.4s; }
+
+    /* ===== PRINT ===== */
+    @media print {
+      .tabs, .scroll-hint { display: none; }
+      .hero, .cal-box, .day-label, .supp-card { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+      .hero { min-height: auto; padding: 40px; }
+    }
+
+    /* ===== RESPONSIVE ===== */
+    @media (max-width: 640px) {
+      .hero { padding: 40px 20px; min-height: auto; padding-top: 80px; }
+      .section { padding: 40px 16px; }
+      .day-row { flex-direction: column; }
+      .day-label { width: 100%; flex-direction: row; justify-content: flex-end; gap: 10px; padding: 12px 16px; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-bg-text">كتلة</div>
+  <div class="hero-line"></div>
+  <div class="hero-dots">
+    <div class="hero-dot active"></div>
+    <div class="hero-dot"></div>
+    <div class="hero-dot"></div>
+  </div>
+
+  <div class="hero-badge">🥋 برنامج اكتساب الكتلة العضلية · 30 سنة</div>
+  <h1>من <em>74 كيلو</em><br/>إلى <strong>80 كيلو</strong><br/>من العضل الحقيقي</h1>
+  <p class="hero-desc">
+    جودو + مسابقة عضلية + جري · تغذية مغربية مُحسَّنة · برنامج 12 أسبوعاً مُفصَّل · للشاب القوي في عمر الثلاثين
+  </p>
+
+  <div class="hero-stats">
+    <div class="hstat">
+      <div class="hstat-val red">74 كغ</div>
+      <div class="hstat-label">الوزن الحالي</div>
+    </div>
+    <div class="hstat">
+      <div class="hstat-val gold">+6 كغ</div>
+      <div class="hstat-label">الهدف</div>
+    </div>
+    <div class="hstat">
+      <div class="hstat-val green">80 كغ</div>
+      <div class="hstat-label">وزن الهدف</div>
+    </div>
+    <div class="hstat">
+      <div class="hstat-val" style="color:#a0a0ff;">12 أسبوع</div>
+      <div class="hstat-label">مدة البرنامج</div>
+    </div>
+    <div class="hstat">
+      <div class="hstat-val" style="color:#ff9f40;">3000+ سعر</div>
+      <div class="hstat-label">سعرات يومية</div>
+    </div>
+  </div>
+
+  <div class="scroll-hint">
+    <span>تمرير للأسفل</span>
+    <div class="scroll-arrow">↓</div>
+  </div>
+</section>
+
+<!-- TABS NAV -->
+<nav class="tabs">
+  <a href="#strategy" class="tab active">الاستراتيجية</a>
+  <a href="#nutrition" class="tab">التغذية</a>
+  <a href="#sport" class="tab">برنامج الرياضة</a>
+  <a href="#judo" class="tab">برنامج الجودو</a>
+  <a href="#running" class="tab">الجري</a>
+  <a href="#supplements" class="tab">المكملات</a>
+  <a href="#progress" class="tab">التقدم</a>
+</nav>
+
+<div class="divider"></div>
+
+<!-- STRATEGY -->
+<section class="section" id="strategy">
+  <div class="sec-label">الأساس</div>
+  <div class="sec-title">استراتيجية اكتساب الكتلة</div>
+  <div class="sec-sub">في عمر 30 سنة، جسمك في أوج قدرته على بناء العضلات. الجودو + المسابقة = توليفة مثالية لجسم قوي وخفيف في آنٍ واحد.</div>
+
+  <div class="strategy-grid">
+    <div class="strat-card" data-num="١">
+      <div class="strat-icon">🔥</div>
+      <div class="strat-title">فائض السعرات</div>
+      <div class="strat-text">تحتاج 300–500 سعرة فوق احتياجك اليومي لبناء عضلات حقيقية دون تكديس الدهون</div>
+    </div>
+    <div class="strat-card" data-num="٢">
+      <div class="strat-icon">🥩</div>
+      <div class="strat-title">البروتين أولاً</div>
+      <div class="strat-text">2 غرام بروتين لكل كيلو من وزنك = 148 غ يومياً. هذا هو الوقود الأساسي للعضلات</div>
+    </div>
+    <div class="strat-card" data-num="٣">
+      <div class="strat-icon">💪</div>
+      <div class="strat-title">الجودو كأساس</div>
+      <div class="strat-text">الجودو يبني قوة وظيفية حقيقية. اجمعه مع المسابقة للحصول على جسم متكامل القوة والتحمل</div>
+    </div>
+    <div class="strat-card" data-num="٤">
+      <div class="strat-icon">😴</div>
+      <div class="strat-title">الراحة والنوم</div>
+      <div class="strat-text">العضلات تنمو أثناء النوم، لا أثناء التمرين. 8 ساعات نوم = ضرورة مطلقة</div>
+    </div>
+  </div>
+
+  <div class="cal-box">
+    <div class="cal-item">
+      <span class="cal-val">3000–3300</span>
+      <div class="cal-label">سعرة حرارية يومية</div>
+      <div class="cal-sub">أيام التمرين</div>
+    </div>
+    <div class="cal-item">
+      <span class="cal-val">148 غ</span>
+      <div class="cal-label">بروتين يومي</div>
+      <div class="cal-sub">2 غ × 74 كغ</div>
+    </div>
+    <div class="cal-item">
+      <span class="cal-val">380 غ</span>
+      <div class="cal-label">كربوهيدرات يومية</div>
+      <div class="cal-sub">وقود الجودو والرياضة</div>
+    </div>
+    <div class="cal-item">
+      <span class="cal-val">80 غ</span>
+      <div class="cal-label">دهون صحية يومية</div>
+      <div class="cal-sub">زيت زيتون، مكسرات، بيض</div>
+    </div>
+    <div class="cal-item">
+      <span class="cal-val">3 لتر</span>
+      <div class="cal-label">ماء يومياً</div>
+      <div class="cal-sub">ضروري مع الجودو</div>
+    </div>
+  </div>
+
+  <div class="rules-big">
+    <div class="rule-big" data-n="١">
+      <div class="rule-big-icon">🍳</div>
+      <div class="rule-big-text">بروتين في كل وجبة بدون استثناء</div>
+    </div>
+    <div class="rule-big" data-n="٢">
+      <div class="rule-big-icon">⏰</div>
+      <div class="rule-big-text">وجبة قبل وبعد كل تمرين</div>
+    </div>
+    <div class="rule-big" data-n="٣">
+      <div class="rule-big-icon">🌙</div>
+      <div class="rule-big-text">نم 8 ساعات — هذا تمرين أيضاً</div>
+    </div>
+    <div class="rule-big" data-n="٤">
+      <div class="rule-big-icon">📈</div>
+      <div class="rule-big-text">زِد الأوزان كل أسبوعين تدريجياً</div>
+    </div>
+    <div class="rule-big" data-n="٥">
+      <div class="rule-big-icon">🚫</div>
+      <div class="rule-big-text">لا تخطئ وجبة ما بعد التمرين</div>
+    </div>
+  </div>
+</section>
+
+<!-- NUTRITION -->
+<section class="section" id="nutrition">
+  <div class="sec-label">التغذية</div>
+  <div class="sec-title">الخطة الغذائية اليومية</div>
+  <div class="sec-sub">قائمة طعام مغربية مُحسَّنة لبناء الكتلة العضلية — 4 وجبات يومياً، كل شيء متاح في أي بيت مغربي.</div>
+
+  <div class="meals-wrapper">
+
+    <!-- فطور -->
+    <div class="meal-block">
+      <div class="meal-header fajr">
+        <div class="meal-hright">
+          <div class="meal-time">7:00 – 8:00 صباحاً</div>
+          <div class="meal-name">☀️ الفطور — وجبة البناء الأولى</div>
+        </div>
+        <div class="meal-kcal">~800 سعرة</div>
+      </div>
+      <div class="meal-body">
+        <div class="food-row">
+          <span class="food-name">بيض مقلي أو مسلوق</span>
+          <div class="food-meta">
+            <span class="food-prot">18 غ بروتين</span>
+            <span class="food-qty">3 بيضات</span>
+          </div>
+        </div>
+        <div class="food-row">
+          <span class="food-name">جبن بلدي أو كيري</span>
+          <div class="food-meta">
+            <span class="food-prot">10 غ بروتين</span>
+            <span class="food-qty">2–3 قطع</span>
+          </div>
+        </div>
+        <div class="food-row">
+          <span class="food-name">خبز كامل الحبوب</span>
+          <div class="food-meta">
+            <span class="food-qty">خبزة كاملة</span>
+          </div>
+        </div>
+        <div class="food-row">
+          <span class="food-name">زيت الزيتون أو جوز الأرض</span>
+          <div class="food-meta">
+            <span class="food-qty">ملعقتان كبيرتان</span>
+          </div>
+        </div>
+        <div class="food-row">
+          <span class="food-name">موز أو تمر</span>
+          <div class="food-meta">
+            <span class="food-qty">2 حبة / 4 تمرات</span>
+          </div>
+        </div>
+        <div class="food-row">
+          <span class="food-name">حليب كامل الدسم</span>
+          <div class="food-meta">
+            <span class="food-prot">8 غ بروتين</span>
+            <span class="food-qty">كأس كبير (250 مل)</span>
+          </div>
+        </div>
+        <div class="meal-note">💡 الفطور هو أهم وجبة في برنامج الكتلة. لا تتخطاه أبداً ولو كنت متأخراً!</div>
+      </div>
+    </div>
+
+    <!-- غداء -->
+    <div class="meal-block">
+      <div class="meal-header lunch">
+        <div class="meal-hright">
+          <div class="meal-time">12:30 – 1:30 ظهراً</div>
+          <div class="meal-name">🌞 الغداء — الوجبة الملكية</div>
+        </div>
+        <div class="meal-kcal">~1000 سعرة</div>
+      </div>
+      <div class="meal-body">
+        <div class="food-row">
+          <span class="food-name">دجاج أو لحم بقري (مشوي أو طاجين)</span>
+          <div class="food-meta">
+            <span class="food-prot">45 غ بروتين</span>
+            <span class="food-qty">200–220 غ</span>
+          </div>
+        </div>
+        <div class="food-row">
+          <span class="food-name">سميد / أرز / بطاطس</span>
+          <div class="food-meta">
+            <span class="food-qty">200 غ مطبوخة</span>
+          </div>
+        </div>
+        <div class="food-row">
+          <span class="food-name">خضروات وفيرة (طاجين أو مسلوقة)</span>
+          <div class="food-meta">
+            <span class="food-qty">ثلث الطبق</span>
+          </div>
+        </div>
+        <div class="food-row">
+          <span class="food-name">خبز</span>
+          <div class="food-meta">
+            <span class="food-qty">نصف خبزة إلى خبزة كاملة</span>
+          </div>
+        </div>
+        <div class="food-row">
+          <span class="food-name">حريرة أو شوربة بقوليات</span>
+          <div class="food-meta">
+            <span class="food-prot">8 غ بروتين</span>
+            <span class="food-qty">طبق واحد</span>
+          </div>
+        </div>
+        <div class="meal-note">🌾 الجمعة: كسكس الدجاج أو اللحم البقري بوفرة — هذا هو الكسكس المثالي لبناء الكتلة!</div>
+      </div>
+    </div>
+
+    <!-- سناك ما بعد التمرين -->
+    <div class="meal-block">
+      <div class="meal-header snack">
+        <div class="meal-hright">
+          <div class="meal-time">بعد التمرين مباشرة (30 دقيقة)</div>
+          <div class="meal-name">⚡ وجبة ما بعد التمرين — الأهم!</div>
+        </div>
+        <div class="meal-kcal">~600 سعرة</div>
+      </div>
+      <div class="meal-body">
+        <div class="food-row">
+          <span class="food-name">بيض مسلوق</span>
+          <div class="food-meta">
+            <span class="food-prot">24 غ بروتين</span>
+            <span class="food-qty">4 بيضات</span>
+          </div>
+        </div>
+        <div class="food-row">
+          <span class="food-name">خبز أو تمر أو موز</span>
+          <div class="food-meta">
+            <span class="food-qty">حبتان / نصف خبزة</span>
+          </div>
+        </div>
+        <div class="food-row">
+          <span class="food-name">زبادي طبيعي أو حليب</span>
+          <div class="food-meta">
+            <span class="food-prot">8 غ بروتين</span>
+            <span class="food-qty">كأس كبير</span>
+          </div>
+        </div>
+        <div class="food-row">
+          <span class="food-name">مكسرات (لوز أو فول سوداني)</span>
+          <div class="food-meta">
+            <span class="food-qty">حفنة واحدة (30 غ)</span>
+          </div>
+        </div>
+        <div class="meal-note">🚨 هذه الوجبة هي نافذة بناء العضلات — لا تضيعها بأي حال!</div>
+      </div>
+    </div>
+
+    <!-- عشاء -->
+    <div class="meal-block">
+      <div class="meal-header dinner">
+        <div class="meal-hright">
+          <div class="meal-time">7:30 – 8:30 مساءً</div>
+          <div class="meal-name">🌙 العشاء — بروتين للنوم</div>
+        </div>
+        <div class="meal-kcal">~700 سعرة</div>
+      </div>
+      <div class="meal-body">
+        <div class="food-row">
+          <span class="food-name">سردين مشوي أو تونة</span>
+          <div class="food-meta">
+            <span class="food-prot">30 غ بروتين</span>
+            <span class="food-qty">150–180 غ</span>
+          </div>
+        </div>
+        <div class="food-row">
+          <span class="food-name">حريرة بيتية (حمص + عدس)</span>
+          <div class="food-meta">
+            <span class="food-prot">10 غ بروتين</span>
+            <span class="food-qty">طبق كبير</span>
+          </div>
+        </div>
+        <div class="food-row">
+          <span class="food-name">سلطة مغربية (طماطم + خيار + بصل)</span>
+          <div class="food-meta">
+            <span class="food-qty">طبق كبير</span>
+          </div>
+        </div>
+        <div class="food-row">
+          <span class="food-name">خبز</span>
+          <div class="food-meta">
+            <span class="food-qty">نصف خبزة</span>
+          </div>
+        </div>
+        <div class="food-row">
+          <span class="food-name">زبادي طبيعي</span>
+          <div class="food-meta">
+            <span class="food-prot">6 غ بروتين</span>
+            <span class="food-qty">كأس واحد</span>
+          </div>
+        </div>
+        <div class="meal-note">💡 السردين والتونة من أفضل مصادر البروتين بسعر منخفض جداً — مثاليان للكتلة!</div>
+      </div>
+    </div>
+
+  </div>
+
+  <div class="avoid-section">
+    <div class="avoid-title">🚫 تجنب هذه الأشياء</div>
+    <div class="avoid-chips">
+      <span class="avoid-chip">المشروبات الغازية</span>
+      <span class="avoid-chip">العصائر الصناعية</span>
+      <span class="avoid-chip">الوجبات السريعة</span>
+      <span class="avoid-chip">الكثير من السكر</span>
+      <span class="avoid-chip">الكحول</span>
+      <span class="avoid-chip">التخطي من وجبة</span>
+      <span class="avoid-chip">النوم بعد وجبة مباشرة</span>
+    </div>
+  </div>
+</section>
+
+<!-- WEEKLY SPORT PROGRAM -->
+<section class="section" id="sport">
+  <div class="sec-label">الرياضة</div>
+  <div class="sec-title">برنامج الأسبوع الكامل</div>
+  <div class="sec-sub">6 أيام تمرين + يوم راحة كاملة. الجودو + المسابقة + الجري مُقسَّمون بذكاء لتجنب الإجهاد الزائد.</div>
+
+  <div class="week-container">
+
+    <div class="day-row">
+      <div class="day-label">
+        <div class="day-ar">الاثنين</div>
+        <div class="day-num">اليوم ١</div>
+      </div>
+      <div class="day-content">
+        <div class="day-sport-title">
+          <span class="sport-tag muscu">💪 مسابقة</span>
+          الجزء العلوي من الجسم — الصدر والكتفين والترايسبس
+        </div>
+        <ul class="exercise-list">
+          <li><span class="ex-name">الضغط بالبار (Bench Press)</span><span class="ex-sets">4 × 8–10</span></li>
+          <li><span class="ex-name">الضغط بالدمبل على منحدر</span><span class="ex-sets">3 × 10–12</span></li>
+          <li><span class="ex-name">الضغط العسكري بالبار</span><span class="ex-sets">4 × 8–10</span></li>
+          <li><span class="ex-name">الرفع الجانبي بالدمبل</span><span class="ex-sets">3 × 12–15</span></li>
+          <li><span class="ex-name">التمديد الخلفي (Tricep Dips)</span><span class="ex-sets">3 × 10–12</span></li>
+          <li><span class="ex-name">تمرين البلانك</span><span class="ex-sets">3 × 45 ثانية</span></li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="day-row">
+      <div class="day-label">
+        <div class="day-ar">الثلاثاء</div>
+        <div class="day-num">اليوم ٢</div>
+      </div>
+      <div class="day-content">
+        <div class="day-sport-title">
+          <span class="sport-tag judo">🥋 جودو</span>
+          تدريب جودو — التقنيات والرشة (Randori)
+        </div>
+        <ul class="exercise-list">
+          <li><span class="ex-name">الإحماء والإطالة</span><span class="ex-sets">15 دقيقة</span></li>
+          <li><span class="ex-name">تمارين Uchi-komi (تكرار التقنيات)</span><span class="ex-sets">20 دقيقة</span></li>
+          <li><span class="ex-name">Nage-komi (الرميات الكاملة)</span><span class="ex-sets">15 دقيقة</span></li>
+          <li><span class="ex-name">Randori (تدريب حر)</span><span class="ex-sets">3 × 5 دقائق</span></li>
+          <li><span class="ex-name">تمارين Ne-waza (الأرضي)</span><span class="ex-sets">10 دقائق</span></li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="day-row">
+      <div class="day-label">
+        <div class="day-ar">الأربعاء</div>
+        <div class="day-num">اليوم ٣</div>
+      </div>
+      <div class="day-content">
+        <div class="day-sport-title">
+          <span class="sport-tag muscu">💪 مسابقة</span>
+          الجزء السفلي — الأرجل والظهر والبايسبس
+        </div>
+        <ul class="exercise-list">
+          <li><span class="ex-name">القرفصاء (Squat) بالبار</span><span class="ex-sets">4 × 8–10</span></li>
+          <li><span class="ex-name">الرفع الميت (Deadlift)</span><span class="ex-sets">4 × 6–8</span></li>
+          <li><span class="ex-name">اللنج بالدمبل</span><span class="ex-sets">3 × 10 لكل رجل</span></li>
+          <li><span class="ex-name">العقلة (Pull-up)</span><span class="ex-sets">4 × أقصى عدد</span></li>
+          <li><span class="ex-name">السحب بالبكرة (Lat Pulldown)</span><span class="ex-sets">3 × 10–12</span></li>
+          <li><span class="ex-name">تمديد البايسبس بالبار</span><span class="ex-sets">3 × 10–12</span></li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="day-row">
+      <div class="day-label">
+        <div class="day-ar">الخميس</div>
+        <div class="day-num">اليوم ٤</div>
+      </div>
+      <div class="day-content">
+        <div class="day-sport-title">
+          <span class="sport-tag run">🏃 جري</span>
+          تمرين الجري المتقطع (HIIT)
+        </div>
+        <ul class="exercise-list">
+          <li><span class="ex-name">إحماء خفيف</span><span class="ex-sets">10 دقائق</span></li>
+          <li><span class="ex-name">جري سريع (Sprint) × هدوء</span><span class="ex-sets">8 × (30 ثانية سريع + 90 ثانية هادئ)</span></li>
+          <li><span class="ex-name">جري خفيف منتظم</span><span class="ex-sets">10 دقائق</span></li>
+          <li><span class="ex-name">تمارين تبريد وإطالة</span><span class="ex-sets">10 دقائق</span></li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="day-row">
+      <div class="day-label">
+        <div class="day-ar">الجمعة</div>
+        <div class="day-num">اليوم ٥</div>
+      </div>
+      <div class="day-content">
+        <div class="day-sport-title">
+          <span class="sport-tag judo">🥋 جودو</span>
+          تدريب جودو — القوة واللياقة الخاصة بالجودو
+        </div>
+        <ul class="exercise-list">
+          <li><span class="ex-name">تمارين Kumi-kata (الإمساك)</span><span class="ex-sets">15 دقيقة</span></li>
+          <li><span class="ex-name">Ippon-seoi-nage (رمية الكتف)</span><span class="ex-sets">5 × 10 تكرار</span></li>
+          <li><span class="ex-name">O-goshi + Tai-otoshi</span><span class="ex-sets">5 × 10 تكرار</span></li>
+          <li><span class="ex-name">Randori مكثف</span><span class="ex-sets">4 × 5 دقائق</span></li>
+          <li><span class="ex-name">تمارين تقوية القبضة (Grip)</span><span class="ex-sets">3 × 30 ثانية</span></li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="day-row">
+      <div class="day-label">
+        <div class="day-ar">السبت</div>
+        <div class="day-num">اليوم ٦</div>
+      </div>
+      <div class="day-content">
+        <div class="day-sport-title">
+          <span class="sport-tag run">🏃 جري</span>
+          جري طويل — التحمل والحرق
+        </div>
+        <ul class="exercise-list">
+          <li><span class="ex-name">إحماء خفيف</span><span class="ex-sets">5 دقائق</span></li>
+          <li><span class="ex-name">جري بوتيرة ثابتة ومعتدلة</span><span class="ex-sets">35–45 دقيقة</span></li>
+          <li><span class="ex-name">تبريد وإطالة</span><span class="ex-sets">10 دقائق</span></li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="day-row">
+      <div class="day-label rest">
+        <div class="day-ar">الأحد</div>
+        <div class="day-num">اليوم ٧</div>
+      </div>
+      <div class="day-content">
+        <div class="day-sport-title">
+          <span class="sport-tag rest">😴 راحة</span>
+          راحة تامة — يوم إعادة البناء
+        </div>
+        <ul class="exercise-list">
+          <li><span class="ex-name">مشي خفيف اختياري</span><span class="ex-sets">20–30 دقيقة</span></li>
+          <li><span class="ex-name">تمارين إطالة خفيفة</span><span class="ex-sets">15 دقيقة</span></li>
+          <li><span class="ex-name">وجبات غنية بالبروتين والكربوهيدرات</span><span class="ex-sets">الإعداد للأسبوع القادم</span></li>
+        </ul>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- JUDO DETAILED -->
+<section class="section" id="judo">
+  <div class="sec-label">الجودو</div>
+  <div class="sec-title">برنامج الجودو التفصيلي — 12 أسبوع</div>
+  <div class="sec-sub">مقسَّم على 3 مراحل: الأساسيات، التطوير، الاحتراف. كل مرحلة 4 أسابيع.</div>
+
+  <div class="judo-phases">
+    <div class="judo-phase">
+      <div class="phase-badge">المرحلة ١ · الأسابيع 1–4</div>
+      <div class="phase-title">🟡 العودة إلى الأساسيات</div>
+      <ul class="tech-list">
+        <li>Ukemi (تمارين السقوط الآمن) يومياً</li>
+        <li>O-goshi (رمية الورك الكبرى)</li>
+        <li>Tai-otoshi (السقوط الجسدي)</li>
+        <li>Uchi-komi بطيء ومركّز</li>
+        <li>Ne-waza: Kesa-gatame (شل الحركة)</li>
+        <li>تقوية القبضة والرسغين</li>
+        <li>Randori خفيف: 2 × 4 دقائق</li>
+      </ul>
+    </div>
+    <div class="judo-phase">
+      <div class="phase-badge">المرحلة ٢ · الأسابيع 5–8</div>
+      <div class="phase-title">🟠 التطوير والتكثيف</div>
+      <ul class="tech-list">
+        <li>Seoi-nage (رمية الظهر) — تقنيتك الأساسية</li>
+        <li>Osoto-gari (حصاد الخارج الكبير)</li>
+        <li>Ippon-seoi-nage بتكرار عالٍ</li>
+        <li>Harai-goshi (رمية الكنس)</li>
+        <li>Combinations: Kouchi → Seoi</li>
+        <li>Ne-waza: Juji-gatame (قفل المرفق)</li>
+        <li>Randori: 3 × 5 دقائق مع شركاء متنوعين</li>
+      </ul>
+    </div>
+    <div class="judo-phase">
+      <div class="phase-badge">المرحلة ٣ · الأسابيع 9–12</div>
+      <div class="phase-title">🔴 الاحتراف والتنافس</div>
+      <ul class="tech-list">
+        <li>تطوير تقنيتك الخاصة (Tokui-waza)</li>
+        <li>Combinations متقدمة ومتعددة</li>
+        <li>Counter-attacks (ردود الأفعال)</li>
+        <li>Newaza: Hadaka-jime + Okuri-eri-jime</li>
+        <li>Shiai (تمرين المنافسة الكاملة)</li>
+        <li>Randori: 5 × 5 دقائق بشدة عالية</li>
+        <li>تحليل الأداء والتصحيح</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- RUNNING -->
+<section class="section" id="running">
+  <div class="sec-label">الجري</div>
+  <div class="sec-title">برنامج الجري التدريجي</div>
+  <div class="sec-sub">الجري في برنامج الكتلة يهدف للتحمل وصحة القلب، لا لحرق الدهون. وتيرة معتدلة، تدريجية، ومنضبطة.</div>
+
+  <div class="run-weeks">
+    <div class="run-week">
+      <div class="run-week-num">الأسبوع 1–2</div>
+      <div class="run-week-title">🐢 البداية الهادئة</div>
+      <div class="run-detail">
+        الخميس: <strong>HIIT خفيف</strong> — 6 سبرينت × 20 ثانية<br/>
+        السبت: <strong>25 دقيقة</strong> جري هادئ<br/>
+        النبض المستهدف: <strong>130–140</strong> دقة/دقيقة
+      </div>
+    </div>
+    <div class="run-week">
+      <div class="run-week-num">الأسبوع 3–4</div>
+      <div class="run-week-title">🚶 البناء التدريجي</div>
+      <div class="run-detail">
+        الخميس: <strong>HIIT متوسط</strong> — 8 سبرينت × 25 ثانية<br/>
+        السبت: <strong>30 دقيقة</strong> منتظمة<br/>
+        النبض: <strong>140–150</strong> دقة/دقيقة
+      </div>
+    </div>
+    <div class="run-week">
+      <div class="run-week-num">الأسبوع 5–8</div>
+      <div class="run-week-title">🏃 التطوير</div>
+      <div class="run-detail">
+        الخميس: <strong>HIIT مكثف</strong> — 10 سبرينت × 30 ثانية<br/>
+        السبت: <strong>35–40 دقيقة</strong><br/>
+        النبض: <strong>145–155</strong> دقة/دقيقة
+      </div>
+    </div>
+    <div class="run-week">
+      <div class="run-week-num">الأسبوع 9–12</div>
+      <div class="run-week-title">⚡ الاحتراف</div>
+      <div class="run-detail">
+        الخميس: <strong>HIIT متقدم</strong> — Tabata كامل<br/>
+        السبت: <strong>45 دقيقة</strong> ثابتة<br/>
+        النبض: <strong>150–160</strong> دقة/دقيقة
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SUPPLEMENTS -->
+<section class="section" id="supplements">
+  <div class="sec-label">المكملات</div>
+  <div class="sec-title">المكملات الغذائية المُوصى بها</div>
+  <div class="sec-sub">مكملات مدروسة علمياً، مناسبة للميزانية، وتكمّل ما لا يكفي من الغذاء اليومي.</div>
+
+  <div class="supp-grid">
+    <div class="supp-card">
+      <div class="supp-icon">💊</div>
+      <div class="supp-name">كرياتين مونوهيدرات</div>
+      <div class="supp-dose">
+        الجرعة: <strong>5 غ يومياً</strong><br/>
+        الوقت: بعد التمرين مع الماء<br/>
+        الفائدة: يزيد القوة وبناء العضلات<br/>
+        السعر: منخفض، متوفر في الصيدلية
+      </div>
+    </div>
+    <div class="supp-card">
+      <div class="supp-icon">🥛</div>
+      <div class="supp-name">بروتين الواي (Whey) — اختياري</div>
+      <div class="supp-dose">
+        الجرعة: <strong>1 شيكر بعد التمرين</strong><br/>
+        30 غ بروتين في الجرعة<br/>
+        البديل المجاني: 4 بيضات مسلوقة<br/>
+        الفائدة: راحة وسرعة امتصاص
+      </div>
+    </div>
+    <div class="supp-card">
+      <div class="supp-icon">☀️</div>
+      <div class="supp-name">فيتامين D3</div>
+      <div class="supp-dose">
+        الجرعة: <strong>1000–2000 IU يومياً</strong><br/>
+        مع وجبة دهنية للامتصاص<br/>
+        ضروري لصحة العظام والقوة<br/>
+        مهم خاصة في الجودو (سقوط وارتطام)
+      </div>
+    </div>
+    <div class="supp-card">
+      <div class="supp-icon">🔋</div>
+      <div class="supp-name">الزنك والمغنيزيوم (ZMA)</div>
+      <div class="supp-dose">
+        الجرعة: <strong>قبل النوم</strong><br/>
+        يحسّن جودة النوم والتعافي<br/>
+        يرفع مستوى التستوستيرون الطبيعي<br/>
+        مثالي لرياضة الجودو المكثفة
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PROGRESS -->
+<section class="section" id="progress">
+  <div class="sec-label">التقدم</div>
+  <div class="sec-title">خارطة طريق الـ 12 أسبوع</div>
+  <div class="sec-sub">كل شهر هدف واضح. التقدم ليس خطاً مستقيماً، لكن الاتجاه العام يجب أن يكون دائماً للأمام.</div>
+
+  <div class="progress-tracker">
+    <div class="prog-header">
+      <div class="prog-main">
+        <div class="prog-title">من 74 كغ إلى 80 كغ</div>
+        <div class="prog-sub">6 كيلوغرام في 12 أسبوعاً = 0.5 كغ في الأسبوع</div>
+      </div>
+      <div class="prog-badge">✅ هدف واقعي وصحي</div>
+    </div>
+
+    <div class="milestones">
+      <div class="milestone">
+        <div class="ms-label">74 كغ</div>
+        <div class="ms-dot done"></div>
+        <div class="ms-line done"></div>
+        <div class="ms-detail">اليوم الأول — البداية 🚀</div>
+      </div>
+      <div class="milestone">
+        <div class="ms-label">الأسبوع 4</div>
+        <div class="ms-dot current"></div>
+        <div class="ms-line"></div>
+        <div class="ms-detail">75.5–76 كغ — تبدأ ترى التغيير في الأرجل والصدر</div>
+      </div>
+      <div class="milestone">
+        <div class="ms-label">الأسبوع 8</div>
+        <div class="ms-dot"></div>
+        <div class="ms-line"></div>
+        <div class="ms-detail">77–77.5 كغ — قوتك في الجودو تتضاعف</div>
+      </div>
+      <div class="milestone">
+        <div class="ms-label">الأسبوع 12</div>
+        <div class="ms-dot"></div>
+        <div class="ms-line"></div>
+        <div class="ms-detail">79–80 كغ — جسم مكتمل ومتناسق 🏆</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+<footer>
+  برنامج مُصمَّم لشاب <strong>30 سنة · 74 كغ ← 80 كغ</strong> — جودو 🥋 + مسابقة عضلية 💪 + جري 🏃 · 12 أسبوعاً من التحول
+</footer>
+
+<script>
+  // Tab active state on scroll
+  const tabs = document.querySelectorAll('.tab');
+  const sections = document.querySelectorAll('section[id]');
+
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        tabs.forEach(t => t.classList.remove('active'));
+        const active = document.querySelector(`.tab[href="#${entry.target.id}"]`);
+        if (active) active.classList.add('active');
+      }
+    });
+  }, { threshold: 0.4 });
+
+  sections.forEach(s => observer.observe(s));
+
+  // Smooth tab click
+  tabs.forEach(tab => {
+    tab.addEventListener('click', e => {
+      e.preventDefault();
+      const target = document.querySelector(tab.getAttribute('href'));
+      if (target) target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    });
+  });
+</script>
+
+</body>
+</html>
